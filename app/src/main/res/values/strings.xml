@@ -5,4 +5,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="video_icon">Video icon</string>
     <string name="empty">No stories added yet</string>
+    <string name="empty_saved">No stories saved yet</string>
 </resources>
