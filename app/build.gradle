@@ -88,6 +88,9 @@ dependencies {
     // Permissions
     implementation 'com.karumi:dexter:4.2.0'
 
+    // Video
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.12'
+
     // Crash
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
 

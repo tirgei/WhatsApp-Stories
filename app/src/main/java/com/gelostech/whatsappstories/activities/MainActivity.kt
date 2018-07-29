@@ -3,6 +3,7 @@ package com.gelostech.whatsappstories.activities
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.TabLayout
+import cn.jzvd.JZVideoPlayer
 import com.gelostech.whatsappstories.R
 import com.gelostech.whatsappstories.commoners.BaseActivity
 import com.gelostech.whatsappstories.fragments.ImagesFragment
@@ -69,6 +70,10 @@ class MainActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onBackPressed() {
+        if (JZVideoPlayer.backPress()) {
+            return
+        }
+
         if (doubleBackToExit) {
             super.onBackPressed()
         } else {
