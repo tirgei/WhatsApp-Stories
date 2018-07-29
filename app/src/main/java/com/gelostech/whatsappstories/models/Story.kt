@@ -1,4 +1,4 @@
-package com.gelostech.whatsappstories
+package com.gelostech.whatsappstories.models
 
 data class Story(
         var type: Int = 0,
