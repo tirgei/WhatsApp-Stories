@@ -1,7 +1,8 @@
-package com.gelostech.whatsappstories
+package com.gelostech.whatsappstories.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.gelostech.whatsappstories.R
 
 class MainActivity : AppCompatActivity() {
 
