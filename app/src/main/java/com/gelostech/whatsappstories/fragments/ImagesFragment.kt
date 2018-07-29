@@ -100,7 +100,12 @@ class ImagesFragment : BaseFragment(), StoryCallback {
     }
 
     override fun onStoryClicked(v: View, story: Story) {
+        val overview = OverviewFragment()
+        val bundle = Bundle()
+        bundle.putSerializable(K.STORY, story)
 
+        overview.arguments = bundle
+        overview.show(activity!!.supportFragmentManager, "")
     }
 
 }
