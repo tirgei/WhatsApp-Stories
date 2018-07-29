@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@android:color/transparent"
+            android:onClick="@{(v) -> callback.onStoryClicked(v, story)}"
             android:visibility="@{(story.type == 0) ? View.GONE : View.VISIBLE}"
             android:contentDescription="@string/video_icon" />
 
