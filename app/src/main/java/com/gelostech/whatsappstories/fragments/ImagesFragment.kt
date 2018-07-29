@@ -2,7 +2,6 @@ package com.gelostech.whatsappstories.fragments
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
@@ -10,18 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.gelostech.whatsappstories.R
-import com.gelostech.whatsappstories.Story
+import com.gelostech.whatsappstories.models.Story
 import com.gelostech.whatsappstories.adapters.StoriesAdapter
 import com.gelostech.whatsappstories.callbacks.StoryCallback
 import com.gelostech.whatsappstories.commoners.BaseFragment
 import com.gelostech.whatsappstories.commoners.K
 import com.gelostech.whatsappstories.utils.RecyclerFormatter
 import kotlinx.android.synthetic.main.fragment_images.*
-import org.jetbrains.anko.toast
 import java.io.File
-import java.io.FilenameFilter
-import java.nio.file.Files.exists
-
 
 
 class ImagesFragment : BaseFragment(), StoryCallback {
@@ -47,7 +42,7 @@ class ImagesFragment : BaseFragment(), StoryCallback {
         rv.itemAnimator = DefaultItemAnimator()
         (rv.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
 
-        adapter = StoriesAdapter(this)
+        adapter = StoriesAdapter(this, activity!!)
         rv.adapter = adapter
 
     }
@@ -67,7 +62,7 @@ class ImagesFragment : BaseFragment(), StoryCallback {
 
         if (files.isNotEmpty()) {
 
-            for (file in files) {
+            for (file in files.sortedBy { it.lastModified() }.reversed()) {
                 val story = Story(K.TYPE_IMAGE, file.absolutePath)
                 adapter.addStory(story)
             }
