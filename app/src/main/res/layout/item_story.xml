@@ -4,13 +4,11 @@
 
     <data>
 
-        <variable
-            name="path"
-            type="String"/>
+        <import type="android.view.View" />
 
         <variable
             name="story"
-            type="com.gelostech.whatsappstories.Story"/>
+            type="com.gelostech.whatsappstories.models.Story"/>
 
         <variable
             name="callback"
@@ -29,6 +27,15 @@
             app:riv_corner_radius="2dp"
             android:scaleType="centerCrop"
             app:imagePath="@{story.path}"/>
+
+        <ImageButton
+            android:id="@+id/videoIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:visibility="@{(story.type == 0) ? View.GONE : View.VISIBLE}"
+            android:contentDescription="@string/video_icon" />
 
     </com.gelostech.whatsappstories.utils.SquareLayout>
 
