@@ -2,6 +2,8 @@ package com.gelostech.whatsappstories.fragments
 
 
 import android.os.Bundle
+import android.os.Handler
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
@@ -15,12 +17,17 @@ import com.gelostech.whatsappstories.callbacks.StoryCallback
 import com.gelostech.whatsappstories.commoners.BaseFragment
 import com.gelostech.whatsappstories.commoners.K
 import com.gelostech.whatsappstories.utils.RecyclerFormatter
+import com.gelostech.whatsappstories.utils.hideView
+import com.gelostech.whatsappstories.utils.showView
 import kotlinx.android.synthetic.main.fragment_images.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.io.File
 
 
 class ImagesFragment : BaseFragment(), StoryCallback {
     private lateinit var adapter: StoriesAdapter
+    private var refreshing = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,21 +64,43 @@ class ImagesFragment : BaseFragment(), StoryCallback {
         if (!dir.exists())
             dir.mkdirs()
 
-        val files = dir.listFiles { _, s ->
-            s.endsWith(".png") || s.endsWith(".jpg") || s.endsWith(".jpeg") }
+        doAsync {
+            val files = dir.listFiles { _, s ->
+                s.endsWith(".png") || s.endsWith(".jpg") || s.endsWith(".jpeg") }
 
-        if (files.isNotEmpty()) {
+            uiThread {
 
-            for (file in files.sortedBy { it.lastModified() }.reversed()) {
-                val story = Story(K.TYPE_IMAGE, file.absolutePath)
-                adapter.addStory(story)
+                if (files.isNotEmpty()) {
+                    hasStories()
+                    if (refreshing) adapter.clearStories()
+
+                    for (file in files.sortedBy { it.lastModified() }.reversed()) {
+                        val story = Story(K.TYPE_IMAGE, file.absolutePath)
+                        adapter.addStory(story)
+                    }
+
+                    refreshing = false
+                } else {
+                    noStories()
+                }
             }
 
         }
 
     }
 
+    private fun noStories() {
+        rv?.hideView()
+        empty?.showView()
+    }
+
+    private fun hasStories() {
+        empty?.hideView()
+        rv?.showView()
+    }
+
     override fun onStoryClicked(v: View, story: Story) {
 
     }
+
 }
