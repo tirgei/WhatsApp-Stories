@@ -100,4 +100,3 @@ kapt {
     generateStubs = true
     mapDiagnosticLocations = true
 }
-
