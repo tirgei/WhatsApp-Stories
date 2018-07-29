@@ -6,4 +6,7 @@
     <string name="video_icon">Video icon</string>
     <string name="empty">No stories added yet</string>
     <string name="empty_saved">No stories saved yet</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="view">View</string>
 </resources>
