@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#128C7E</color>
-    <color name="colorPrimaryDark">#075E54</color>
+    <color name="colorPrimary">#075e54</color>
+    <color name="colorPrimaryDark">#05473f</color>
     <color name="colorAccent">#25D366</color>
+    <color name="tabsText">#83AFAA</color>
     <color name="white">#FFFFFF</color>
     <color name="light_background">#f2f2f2</color>
     <color name="secondaryText">#D9757575</color>
