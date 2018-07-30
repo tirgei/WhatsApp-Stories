@@ -18,6 +18,10 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import android.support.v4.content.ContextCompat.startActivity
+import android.R.attr.path
+
+
 
 object AppUtils {
 
@@ -90,6 +94,13 @@ object AppUtils {
 
         share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"))
         context.startActivity(Intent.createChooser(share, "Share via..."))
+    }
+
+    fun shareVideo(context: Context, path: String) {
+        val intent = Intent(Intent.ACTION_SEND, Uri.parse(path))
+        intent.setDataAndType(Uri.parse(path), "video/*")
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path))
+        context.startActivity(Intent.createChooser(intent, "Share via..."))
     }
 
 }

@@ -87,9 +87,7 @@ class StoryOverview : Dialog, View.OnClickListener {
                     }
 
                     K.TYPE_VIDEO -> {
-                        val i = Intent(c, VideoActivity::class.java)
-                        i.putExtra(K.STORY, story)
-                        c.startActivity(i)
+                        AppUtils.shareVideo(c, story.path!!)
                     }
                 }
             }
