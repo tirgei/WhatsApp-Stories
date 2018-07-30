@@ -21,6 +21,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.github.chrisbanes.photoview.PhotoView
 import com.makeramen.roundedimageview.RoundedImageView
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -58,6 +59,13 @@ fun CircleImageView.loadUrl(url: Int) {
 
 fun CircleImageView.loadUrl(url: String) {
     Glide.with(context.applicationContext)
+            .load(url)
+            .thumbnail(0.05f)
+            .into(this)
+}
+
+fun PhotoView.loadUrl(url: String) {
+    Glide.with(context)
             .load(url)
             .thumbnail(0.05f)
             .into(this)
