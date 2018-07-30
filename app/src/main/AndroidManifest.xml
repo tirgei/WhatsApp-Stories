@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".commoners.BaseActivity" />
-        <activity android:name=".activities.ImageActivity"></activity>
+        <activity android:name=".activities.ImageActivity" />
+        <activity android:name=".activities.VideoActivity"></activity>
     </application>
 
 </manifest>
