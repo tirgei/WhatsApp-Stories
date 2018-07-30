@@ -3,12 +3,15 @@ package com.gelostech.whatsappstories.commoners
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import cn.jzvd.JZVideoPlayerStandard
 import com.gelostech.whatsappstories.R
 import com.gelostech.whatsappstories.activities.ImageActivity
+import com.gelostech.whatsappstories.activities.VideoActivity
 import com.gelostech.whatsappstories.models.Story
 import com.gelostech.whatsappstories.utils.loadUrl
 import com.gelostech.whatsappstories.utils.setDrawable
@@ -18,8 +21,8 @@ import kotlinx.android.synthetic.main.overview_story.*
 import org.jetbrains.anko.toast
 
 class StoryOverview : Dialog, View.OnClickListener {
-    private lateinit var story: Story
-    private lateinit var c: Context
+    private var story: Story
+    private var c: Context
 
     constructor(context: Context, story: Story): super(context) {
         this.c = context
@@ -69,17 +72,42 @@ class StoryOverview : Dialog, View.OnClickListener {
                     }
 
                     K.TYPE_VIDEO -> {
-
+                        val i = Intent(c, VideoActivity::class.java)
+                        i.putExtra(K.STORY, story)
+                        c.startActivity(i)
                     }
                 }
             }
 
             R.id.share -> {
+                when(story.type) {
+                    K.TYPE_IMAGE -> {
+                        val image = BitmapFactory.decodeFile(story.path,BitmapFactory.Options())
+                        AppUtils.shareImage(c,image)
+                    }
 
+                    K.TYPE_VIDEO -> {
+                        val i = Intent(c, VideoActivity::class.java)
+                        i.putExtra(K.STORY, story)
+                        c.startActivity(i)
+                    }
+                }
             }
 
             R.id.save -> {
+                when(story.type) {
+                    K.TYPE_IMAGE -> {
+                        val i = Intent(c, ImageActivity::class.java)
+                        i.putExtra(K.STORY, story)
+                        c.startActivity(i)
+                    }
 
+                    K.TYPE_VIDEO -> {
+                        val i = Intent(c, VideoActivity::class.java)
+                        i.putExtra(K.STORY, story)
+                        c.startActivity(i)
+                    }
+                }
             }
         }
     }
