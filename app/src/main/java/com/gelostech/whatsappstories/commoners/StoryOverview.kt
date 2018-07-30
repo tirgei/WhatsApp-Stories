@@ -95,15 +95,12 @@ class StoryOverview : Dialog, View.OnClickListener {
             R.id.save -> {
                 when(story.type) {
                     K.TYPE_IMAGE -> {
-                        val i = Intent(c, ImageActivity::class.java)
-                        i.putExtra(K.STORY, story)
-                        c.startActivity(i)
+                        val image = BitmapFactory.decodeFile(story.path,BitmapFactory.Options())
+                        AppUtils.saveImage(c,image)
                     }
 
                     K.TYPE_VIDEO -> {
-                        val i = Intent(c, VideoActivity::class.java)
-                        i.putExtra(K.STORY, story)
-                        c.startActivity(i)
+                        AppUtils.saveVideo(c, story.path!!)
                     }
                 }
             }

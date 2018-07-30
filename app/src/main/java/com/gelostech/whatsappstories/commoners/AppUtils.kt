@@ -14,13 +14,10 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import android.support.v4.content.ContextCompat.startActivity
 import android.R.attr.path
-
+import android.content.ContextWrapper
+import java.io.*
 
 
 object AppUtils {
@@ -59,10 +56,48 @@ object AppUtils {
             } else {
                 context.sendBroadcast( Intent("android.intent.action.MEDIA_MOUNTED", Uri.fromFile(newImage)))
             }
-            context.toast("Meme saved")
+            context.toast("Story saved")
 
         } catch (e: Exception){
             Timber.e(e.localizedMessage)
+        }
+
+    }
+
+    fun saveVideo(context: Context, filePath: String) {
+
+        val newfile: File
+
+        try {
+
+            val currentFile = File(filePath)
+            val fileName = currentFile.name
+
+            newfile = File(K.SAVED_STORIES, fileName)
+
+            if (currentFile.exists()) {
+
+                val instream = FileInputStream(currentFile)
+                val out = FileOutputStream(newfile)
+
+                // Copy the bits from instream to outstream
+                val buf = ByteArray(1024)
+                var len = instream.read(buf)
+
+                while (len > 0) {
+                    out.write(buf, 0, len)
+                }
+
+                instream.close()
+                out.close()
+
+                context.toast("Video saved")
+            } else {
+                context.toast("Error saving video")
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
