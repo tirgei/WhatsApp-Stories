@@ -16,6 +16,7 @@ import com.gelostech.whatsappstories.adapters.StoriesAdapter
 import com.gelostech.whatsappstories.callbacks.StoryCallback
 import com.gelostech.whatsappstories.commoners.BaseFragment
 import com.gelostech.whatsappstories.commoners.K
+import com.gelostech.whatsappstories.commoners.StoryOverview
 import com.gelostech.whatsappstories.utils.RecyclerFormatter
 import com.gelostech.whatsappstories.utils.hideView
 import com.gelostech.whatsappstories.utils.showView
@@ -100,12 +101,8 @@ class ImagesFragment : BaseFragment(), StoryCallback {
     }
 
     override fun onStoryClicked(v: View, story: Story) {
-        val overview = OverviewFragment()
-        val bundle = Bundle()
-        bundle.putSerializable(K.STORY, story)
-
-        overview.arguments = bundle
-        overview.show(activity!!.supportFragmentManager, "")
+        val overview = StoryOverview(activity!!, story)
+        overview.show()
     }
 
 }

@@ -36,32 +36,50 @@
         android:paddingBottom="15dp"
         android:clipToPadding="false">
 
-        <TextView
-            android:id="@+id/view"
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:drawablePadding="5dp"
-            android:text="@string/view"/>
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/share"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:drawablePadding="5dp"
-            android:text="@string/share"/>
+            <TextView
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center"
+                android:text="@string/view"/>
 
-        <TextView
-            android:id="@+id/save"
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:drawablePadding="5dp"
-            android:text="@string/save"/>
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="5dp"
+                android:text="@string/share"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="5dp"
+                android:text="@string/save"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
