@@ -2,11 +2,13 @@ package com.gelostech.whatsappstories.commoners
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import cn.jzvd.JZVideoPlayerStandard
 import com.gelostech.whatsappstories.R
+import com.gelostech.whatsappstories.activities.ImageActivity
 import com.gelostech.whatsappstories.models.Story
 import com.gelostech.whatsappstories.utils.loadUrl
 import com.gelostech.whatsappstories.utils.setDrawable
@@ -58,7 +60,27 @@ class StoryOverview : Dialog, View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.view -> c.toast("View image")
+            R.id.view -> {
+                when(story.type) {
+                    K.TYPE_IMAGE -> {
+                        val i = Intent(c, ImageActivity::class.java)
+                        i.putExtra(K.STORY, story)
+                        c.startActivity(i)
+                    }
+
+                    K.TYPE_VIDEO -> {
+
+                    }
+                }
+            }
+
+            R.id.share -> {
+
+            }
+
+            R.id.save -> {
+
+            }
         }
     }
 }

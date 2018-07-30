@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".commoners.BaseActivity"></activity>
+        <activity android:name=".commoners.BaseActivity" />
+        <activity android:name=".activities.ImageActivity"></activity>
     </application>
 
 </manifest>
