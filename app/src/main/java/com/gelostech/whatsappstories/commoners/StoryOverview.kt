@@ -41,10 +41,10 @@ class StoryOverview : Dialog, View.OnClickListener {
         view.setOnClickListener(this)
         share.setOnClickListener(this)
         save.setOnClickListener(this)
+        media.setOnClickListener(this)
 
         when(story.type) {
             K.TYPE_IMAGE -> loadImageStory()
-
             K.TYPE_VIDEO -> loadVideoStory()
         }
 
@@ -63,7 +63,7 @@ class StoryOverview : Dialog, View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.view -> {
+            R.id.view, R.id.media -> {
                 when(story.type) {
                     K.TYPE_IMAGE -> {
                         val i = Intent(c, ImageActivity::class.java)
