@@ -7,4 +7,4 @@ App to view and manage WhatsApp stories
 <img src="screenshots/three.png" width="200">
 
 ### APK
-You can download the apk here: https://drive.google.com/open?id=1fpg7KJgVFvW6Qdc9GVBOV95iynRgts_k
+You can download the apk here: [Google Drive](https://drive.google.com/open?id=1fpg7KJgVFvW6Qdc9GVBOV95iynRgts_k)
