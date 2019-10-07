@@ -50,6 +50,10 @@ class VideosFragment : BaseFragment(), StoryCallback {
         adapter = StoriesAdapter(this, activity!!)
         rv.adapter = adapter
 
+        refresh.setOnRefreshListener {
+            adapter.clearStories()
+            loadStories()
+        }
     }
 
     private fun loadStories() {
@@ -79,6 +83,8 @@ class VideosFragment : BaseFragment(), StoryCallback {
                 } else {
                     noStories()
                 }
+
+                if (refresh.isRefreshing) refresh.isRefreshing = false
             }
 
         }

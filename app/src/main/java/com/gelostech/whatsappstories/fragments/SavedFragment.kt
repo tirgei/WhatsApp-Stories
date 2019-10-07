@@ -52,6 +52,10 @@ class SavedFragment : BaseFragment(), StoryCallback {
         adapter = StoriesAdapter(this, activity!!)
         rv.adapter = adapter
 
+        refresh.setOnRefreshListener {
+            adapter.clearStories()
+            loadStories()
+        }
     }
 
     private fun loadStories() {
@@ -72,9 +76,10 @@ class SavedFragment : BaseFragment(), StoryCallback {
 
                 if (files.isNotEmpty()) {
                     hasStories()
-                    var story = Story()
 
                     for (file in files.sortedBy { it.lastModified() }.reversed()) {
+                        var story = Story()
+
                         if (isImage(file)) {
                             story = Story(K.TYPE_IMAGE, file.absolutePath)
                         } else if (isVideo(file)) {
@@ -87,6 +92,8 @@ class SavedFragment : BaseFragment(), StoryCallback {
                 } else {
                     noStories()
                 }
+
+                if (refresh.isRefreshing) refresh.isRefreshing = false
             }
 
         }

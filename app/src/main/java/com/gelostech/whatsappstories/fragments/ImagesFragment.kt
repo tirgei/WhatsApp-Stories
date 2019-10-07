@@ -28,7 +28,6 @@ import java.io.File
 
 class ImagesFragment : BaseFragment(), StoryCallback {
     private lateinit var adapter: StoriesAdapter
-    private var refreshing = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -53,6 +52,10 @@ class ImagesFragment : BaseFragment(), StoryCallback {
         adapter = StoriesAdapter(this, activity!!)
         rv.adapter = adapter
 
+        refresh.setOnRefreshListener {
+            adapter.clearStories()
+            loadStories()
+        }
     }
 
     private fun loadStories() {
@@ -73,17 +76,15 @@ class ImagesFragment : BaseFragment(), StoryCallback {
 
                 if (files.isNotEmpty()) {
                     hasStories()
-                    if (refreshing) adapter.clearStories()
-
                     for (file in files.sortedBy { it.lastModified() }.reversed()) {
                         val story = Story(K.TYPE_IMAGE, file.absolutePath)
                         adapter.addStory(story)
                     }
-
-                    refreshing = false
                 } else {
                     noStories()
                 }
+
+                if (refresh.isRefreshing) refresh.isRefreshing = false
             }
 
         }
