@@ -26,6 +26,7 @@ class StoriesAdapter(private val callback: StoryCallback, private val context: C
 
     fun clearStories() {
         stories.clear()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoriesHolder {
