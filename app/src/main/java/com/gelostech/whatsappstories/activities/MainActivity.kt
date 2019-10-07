@@ -27,6 +27,8 @@ class MainActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
         setContentView(R.layout.activity_main)
 
         initViews()
+
+        if (!storagePermissionGranted()) requestStoragePermission()
     }
 
     private fun initViews() {

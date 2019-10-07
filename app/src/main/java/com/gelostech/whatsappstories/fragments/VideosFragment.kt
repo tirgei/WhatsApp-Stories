@@ -15,17 +15,26 @@ import com.gelostech.whatsappstories.callbacks.StoryCallback
 import com.gelostech.whatsappstories.commoners.BaseFragment
 import com.gelostech.whatsappstories.commoners.K
 import com.gelostech.whatsappstories.commoners.StoryOverview
+import com.gelostech.whatsappstories.models.PermissionsEvent
 import com.gelostech.whatsappstories.models.Story
 import com.gelostech.whatsappstories.utils.RecyclerFormatter
 import com.gelostech.whatsappstories.utils.hideView
 import com.gelostech.whatsappstories.utils.showView
 import kotlinx.android.synthetic.main.fragment_videos.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.io.File
 
 class VideosFragment : BaseFragment(), StoryCallback {
     private lateinit var adapter: StoriesAdapter
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -58,7 +67,8 @@ class VideosFragment : BaseFragment(), StoryCallback {
 
     private fun loadStories() {
         if (!storagePermissionGranted()) {
-            requestStoragePermission()
+            toast(getString(R.string.message_permissions_required))
+            stopRefreshing()
             return
         }
 
@@ -84,7 +94,7 @@ class VideosFragment : BaseFragment(), StoryCallback {
                     noStories()
                 }
 
-                if (refresh.isRefreshing) refresh.isRefreshing = false
+                stopRefreshing()
             }
 
         }
@@ -101,9 +111,26 @@ class VideosFragment : BaseFragment(), StoryCallback {
         rv?.showView()
     }
 
+    private fun stopRefreshing() {
+        if (refresh.isRefreshing) refresh.isRefreshing = false
+    }
+
     override fun onStoryClicked(v: View, story: Story) {
         val overview = StoryOverview(activity!!, story)
         overview.show()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onPermissonsEvent(event: PermissionsEvent) {
+        if (event.granted) {
+            adapter.clearStories()
+            loadStories()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 
 }
