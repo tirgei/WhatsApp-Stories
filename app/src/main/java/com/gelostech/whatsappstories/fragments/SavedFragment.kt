@@ -18,6 +18,7 @@ import com.gelostech.whatsappstories.commoners.BaseFragment
 import com.gelostech.whatsappstories.commoners.K
 import com.gelostech.whatsappstories.commoners.StoryOverview
 import com.gelostech.whatsappstories.models.PermissionsEvent
+import com.gelostech.whatsappstories.models.RefreshStoriesEvent
 import com.gelostech.whatsappstories.models.Story
 import com.gelostech.whatsappstories.utils.RecyclerFormatter
 import com.gelostech.whatsappstories.utils.hideView
@@ -135,6 +136,12 @@ class SavedFragment : BaseFragment(), StoryCallback {
             adapter.clearStories()
             loadStories()
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onRefreshStoriesEvent(event: RefreshStoriesEvent) {
+        adapter.clearStories()
+        loadStories()
     }
 
     override fun onStop() {

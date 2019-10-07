@@ -12,6 +12,7 @@ import cn.jzvd.JZVideoPlayerStandard
 import com.gelostech.whatsappstories.R
 import com.gelostech.whatsappstories.activities.ImageActivity
 import com.gelostech.whatsappstories.activities.VideoActivity
+import com.gelostech.whatsappstories.models.RefreshStoriesEvent
 import com.gelostech.whatsappstories.models.Story
 import com.gelostech.whatsappstories.utils.hideView
 import com.gelostech.whatsappstories.utils.loadUrl
@@ -19,6 +20,7 @@ import com.gelostech.whatsappstories.utils.setDrawable
 import com.gelostech.whatsappstories.utils.showView
 import com.mikepenz.ionicons_typeface_library.Ionicons
 import kotlinx.android.synthetic.main.overview_story.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import java.io.File
@@ -121,6 +123,8 @@ class StoryOverview : Dialog, View.OnClickListener {
                         AppUtils.saveVideo(c, story.path!!)
                     }
                 }
+
+                EventBus.getDefault().post(RefreshStoriesEvent())
             }
 
             R.id.delete -> {
@@ -131,6 +135,8 @@ class StoryOverview : Dialog, View.OnClickListener {
                         File(story.path!!).absoluteFile.delete()
                         context.toast("Story deleted")
                         dismiss()
+
+                        EventBus.getDefault().post(RefreshStoriesEvent())
                     }
 
                     negativeButton("Cancel") {}
