@@ -14,10 +14,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import org.jetbrains.anko.toast
 import timber.log.Timber
-import android.support.v4.content.ContextCompat.startActivity
-import android.R.attr.path
-import android.content.ContextWrapper
 import java.io.*
+import java.nio.channels.FileChannel
 
 
 object AppUtils {
@@ -37,7 +35,6 @@ object AppUtils {
     }
 
     fun saveImage(context: Context, bitmap: Bitmap) {
-
         val file = File(K.SAVED_STORIES)
         if(!file.exists()) file.mkdirs()
 
@@ -65,41 +62,30 @@ object AppUtils {
     }
 
     fun saveVideo(context: Context, filePath: String) {
+        val sourceFile = File(filePath)
+        val destinationFile = File(K.SAVED_STORIES, sourceFile.name)
 
-        val newfile: File
+        if (!destinationFile.parentFile.exists()) destinationFile.parentFile.mkdirs()
+        if (!destinationFile.exists()) destinationFile.createNewFile()
+
+        var source: FileChannel? = null
+        var dest: FileChannel? = null
 
         try {
+            source = FileInputStream(sourceFile).channel
+            dest = FileInputStream(destinationFile).channel
 
-            val currentFile = File(filePath)
-            val fileName = currentFile.name
+            dest.transferFrom(source, 0, source.size())
+            context.toast("Video saved")
 
-            newfile = File(K.SAVED_STORIES, fileName)
+        } catch (e: java.lang.Exception) {
+            Timber.e("Error saving video: %s", e.localizedMessage)
+            context.toast("Error saving video")
 
-            if (currentFile.exists()) {
-
-                val instream = FileInputStream(currentFile)
-                val out = FileOutputStream(newfile)
-
-                // Copy the bits from instream to outstream
-                val buf = ByteArray(1024)
-                var len = instream.read(buf)
-
-                while (len > 0) {
-                    out.write(buf, 0, len)
-                }
-
-                instream.close()
-                out.close()
-
-                context.toast("Video saved")
-            } else {
-                context.toast("Error saving video")
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } finally {
+            source?.close()
+            dest?.close()
         }
-
     }
 
     fun shareImage(context: Context, bitmap: Bitmap) {
