@@ -13,20 +13,25 @@ import com.gelostech.whatsappstories.R
 import com.gelostech.whatsappstories.activities.ImageActivity
 import com.gelostech.whatsappstories.activities.VideoActivity
 import com.gelostech.whatsappstories.models.Story
+import com.gelostech.whatsappstories.utils.hideView
 import com.gelostech.whatsappstories.utils.loadUrl
 import com.gelostech.whatsappstories.utils.setDrawable
 import com.gelostech.whatsappstories.utils.showView
 import com.mikepenz.ionicons_typeface_library.Ionicons
 import kotlinx.android.synthetic.main.overview_story.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
+import java.io.File
 
 class StoryOverview : Dialog, View.OnClickListener {
     private var story: Story
     private var c: Context
+    private var showDeleteButton: Boolean
 
-    constructor(context: Context, story: Story): super(context) {
+    constructor(context: Context, story: Story, showDeleteButton: Boolean = false): super(context) {
         this.c = context
         this.story = story
+        this.showDeleteButton = showDeleteButton
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +41,25 @@ class StoryOverview : Dialog, View.OnClickListener {
 
         view.setDrawable(AppUtils.setDrawable(c, Ionicons.Icon.ion_eye, R.color.secondaryText, 15))
         share.setDrawable(AppUtils.setDrawable(c, Ionicons.Icon.ion_share, R.color.secondaryText, 15))
-        save.setDrawable(AppUtils.setDrawable(c, Ionicons.Icon.ion_android_download, R.color.secondaryText, 15))
 
         view.setOnClickListener(this)
         share.setOnClickListener(this)
-        save.setOnClickListener(this)
         media.setOnClickListener(this)
+
+        if (showDeleteButton) {
+            save.hideView()
+            delete.showView()
+
+            delete.setDrawable(AppUtils.setDrawable(c, Ionicons.Icon.ion_ios_trash, R.color.secondaryText, 15))
+            delete.setOnClickListener(this)
+
+        } else {
+            delete.hideView()
+            save.showView()
+
+            save.setDrawable(AppUtils.setDrawable(c, Ionicons.Icon.ion_android_download, R.color.secondaryText, 15))
+            save.setOnClickListener(this)
+        }
 
         when(story.type) {
             K.TYPE_IMAGE -> loadImageStory()
@@ -103,6 +121,20 @@ class StoryOverview : Dialog, View.OnClickListener {
                         AppUtils.saveVideo(c, story.path!!)
                     }
                 }
+            }
+
+            R.id.delete -> {
+                context.alert("Are you sure you want to delete this story?") {
+                    title = "Delete story"
+
+                    positiveButton("Delete") {
+                        File(story.path!!).absoluteFile.delete()
+                        context.toast("Story deleted")
+                        dismiss()
+                    }
+
+                    negativeButton("Cancel") {}
+                }.show()
             }
         }
     }
