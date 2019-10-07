@@ -9,4 +9,6 @@
     <string name="save">Save</string>
     <string name="share">Share</string>
     <string name="view">View</string>
+
+    <string name="message_permissions_required">Storage permissions is required to fetch stories</string>
 </resources>
