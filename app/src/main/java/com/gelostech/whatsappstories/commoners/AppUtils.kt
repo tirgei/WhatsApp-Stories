@@ -12,6 +12,7 @@ import android.os.StrictMode
 import android.support.v4.content.ContextCompat
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
+import org.apache.commons.io.FileUtils
 import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.io.*
@@ -65,27 +66,8 @@ object AppUtils {
         val sourceFile = File(filePath)
         val destinationFile = File(K.SAVED_STORIES, sourceFile.name)
 
-        if (!destinationFile.parentFile.exists()) destinationFile.parentFile.mkdirs()
-        if (!destinationFile.exists()) destinationFile.createNewFile()
-
-        var source: FileChannel? = null
-        var dest: FileChannel? = null
-
-        try {
-            source = FileInputStream(sourceFile).channel
-            dest = FileInputStream(destinationFile).channel
-
-            dest.transferFrom(source, 0, source.size())
-            context.toast("Video saved")
-
-        } catch (e: java.lang.Exception) {
-            Timber.e("Error saving video: %s", e.localizedMessage)
-            context.toast("Error saving video")
-
-        } finally {
-            source?.close()
-            dest?.close()
-        }
+        FileUtils.copyFile(sourceFile, destinationFile, false)
+        context.toast("Story saved")
     }
 
     fun shareImage(context: Context, bitmap: Bitmap) {
