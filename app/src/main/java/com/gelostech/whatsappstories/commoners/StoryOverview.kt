@@ -2,12 +2,14 @@ package com.gelostech.whatsappstories.commoners
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.Window
+import cn.jzvd.JZVideoPlayer
 import cn.jzvd.JZVideoPlayerStandard
 import com.gelostech.whatsappstories.R
 import com.gelostech.whatsappstories.activities.ImageActivity
@@ -68,6 +70,9 @@ class StoryOverview : Dialog, View.OnClickListener {
             K.TYPE_VIDEO -> loadVideoStory()
         }
 
+        this.setOnDismissListener {
+            JZVideoPlayer.releaseAllVideos()
+        }
     }
 
     private fun loadImageStory() {
@@ -144,4 +149,5 @@ class StoryOverview : Dialog, View.OnClickListener {
             }
         }
     }
+
 }

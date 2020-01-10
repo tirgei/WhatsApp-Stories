@@ -87,4 +87,9 @@ class MainActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        JZVideoPlayer.releaseAllVideos()
+    }
+
 }
